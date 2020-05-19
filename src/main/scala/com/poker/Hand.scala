@@ -8,6 +8,7 @@ object SortedHand{
     SortedHand(hand.setOfCards.toList.sortBy(_.rank.value))
   }
 }
+
 case class SortedHand(cards: List[Card]){
   lazy val hasSingleSuit: Boolean = cards.map(_.suit).toSet.size == 1
   lazy val isSequential: Boolean = {
@@ -117,31 +118,32 @@ object HandRank{
     sortedHand match {
       case RoyalFlush(rf) => rf
       case StraightFlush(sf) => sf
+
     }
 
-    sortedHand.cards match {
-      case Card(_, Ten) :: Card(_, Jack) :: Card(_, Queen) :: Card(_, King) :: Card(_, Ace) :: Nil if sortedHand.isSameSuit => RoyalFlush
-      case Card(_, Two) :: Card(_, Three) :: Card(_, Four) :: Card(_, Five) :: Card(_, Ace) :: Nil if isSameSuit => StraightFlush
-      case Card(_, Two) :: Card(_, Three) :: Card(_, Four) :: Card(_, Five) :: Card(_, Ace) :: Nil => Straight
-      case _ if isSequential && isSameSuit => StraightFlush
-      case _ if isSameSuit => Flush
-      case _ if isSequential => Straight
-      case _ =>
-        val pairCount = cards
-          .groupBy(_.rank)
-          .collect{
-            case (_, matchingRanks) if matchingRanks.size > 1 => matchingRanks.size
-          }
-          .toList.sorted
-
-        pairCount match {
-          case 4 :: Nil => FourOfAKind
-          case 2 :: 3 :: Nil => FullHouse
-          case 3 :: Nil => ThreeOfAKind
-          case 2 :: 2 :: Nil => TwoPair
-          case 2 :: Nil => Pair
-          case _ => HighCard
-        }
-    }
+//    sortedHand.cards match {
+//      case Card(_, Ten) :: Card(_, Jack) :: Card(_, Queen) :: Card(_, King) :: Card(_, Ace) :: Nil if sortedHand.isSameSuit => RoyalFlush
+//      case Card(_, Two) :: Card(_, Three) :: Card(_, Four) :: Card(_, Five) :: Card(_, Ace) :: Nil if isSameSuit => StraightFlush
+//      case Card(_, Two) :: Card(_, Three) :: Card(_, Four) :: Card(_, Five) :: Card(_, Ace) :: Nil => Straight
+//      case _ if isSequential && isSameSuit => StraightFlush
+//      case _ if isSameSuit => Flush
+//      case _ if isSequential => Straight
+//      case _ =>
+//        val pairCount = cards
+//          .groupBy(_.rank)
+//          .collect{
+//            case (_, matchingRanks) if matchingRanks.size > 1 => matchingRanks.size
+//          }
+//          .toList.sorted
+//
+//        pairCount match {
+//          case 4 :: Nil => FourOfAKind
+//          case 2 :: 3 :: Nil => FullHouse
+//          case 3 :: Nil => ThreeOfAKind
+//          case 2 :: 2 :: Nil => TwoPair
+//          case 2 :: Nil => Pair
+//          case _ => HighCard
+//        }
+//    }
   }
 }
