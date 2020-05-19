@@ -1,5 +1,4 @@
 package com.poker
-import scala.collection.immutable
 
 case class Hand(setOfCards: Set[Card])
 
@@ -113,37 +112,16 @@ case object HighCard extends HandRank(1){
 }
 
 object HandRank{
-  def apply(hand: Hand): HandRank = {
-    val sortedHand = SortedHand(hand)
-    sortedHand match {
+  def apply(hand: Hand): HandRank = SortedHand(hand) match {
       case RoyalFlush(rf) => rf
       case StraightFlush(sf) => sf
-
+      case FourOfAKind(foak) => foak
+      case FullHouse(fh) => fh
+      case Flush(f) => f
+      case Straight(st) => st
+      case ThreeOfAKind(toak) => toak
+      case TwoPair(tp) => tp
+      case Pair(p) => p
+      case HighCard(hc) => hc
     }
-
-//    sortedHand.cards match {
-//      case Card(_, Ten) :: Card(_, Jack) :: Card(_, Queen) :: Card(_, King) :: Card(_, Ace) :: Nil if sortedHand.isSameSuit => RoyalFlush
-//      case Card(_, Two) :: Card(_, Three) :: Card(_, Four) :: Card(_, Five) :: Card(_, Ace) :: Nil if isSameSuit => StraightFlush
-//      case Card(_, Two) :: Card(_, Three) :: Card(_, Four) :: Card(_, Five) :: Card(_, Ace) :: Nil => Straight
-//      case _ if isSequential && isSameSuit => StraightFlush
-//      case _ if isSameSuit => Flush
-//      case _ if isSequential => Straight
-//      case _ =>
-//        val pairCount = cards
-//          .groupBy(_.rank)
-//          .collect{
-//            case (_, matchingRanks) if matchingRanks.size > 1 => matchingRanks.size
-//          }
-//          .toList.sorted
-//
-//        pairCount match {
-//          case 4 :: Nil => FourOfAKind
-//          case 2 :: 3 :: Nil => FullHouse
-//          case 3 :: Nil => ThreeOfAKind
-//          case 2 :: 2 :: Nil => TwoPair
-//          case 2 :: Nil => Pair
-//          case _ => HighCard
-//        }
-//    }
-  }
 }
