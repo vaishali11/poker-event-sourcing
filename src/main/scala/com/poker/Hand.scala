@@ -1,5 +1,4 @@
 package com.poker
-import scala.collection.immutable
 
 case class Hand(setOfCards: Set[Card])
 
@@ -35,6 +34,7 @@ case object HighCard extends HandRank(1)
 
 object HandRank{
   def apply(hand: Hand): HandRank = {
+
     val sortedHand = SortedHand(hand)
     val isSameSuit = sortedHand.cards.map(_.suit).toSet.size == 1
     val isSequential = SequentialCards(sortedHand).size == sortedHand.cards.size
@@ -42,6 +42,7 @@ object HandRank{
     sortedHand.cards match {
       case Card(_, Ten) :: Card(_, Jack) :: Card(_, Queen) :: Card(_, King) :: Card(_, Ace) :: Nil if isSameSuit => RoyalFlush
       case Card(_, Two) :: Card(_, Three) :: Card(_, Four) :: Card(_, Five) :: Card(_, Ace) :: Nil if isSameSuit => StraightFlush
+      case Card(_, Two) :: Card(_, Three) :: Card(_, Four) :: Card(_, Five) :: Card(_, Ace) :: Nil => Straight
       case _ if isSequential && isSameSuit => StraightFlush
       case _ if isSameSuit => Flush
       case _ if isSequential => Straight
