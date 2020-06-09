@@ -1,9 +1,6 @@
 package com.poker
 import com.poker.Deck.Deck
 
-import scala.util
-
-
 object Deck {
 
   type Deck = List[Card]
@@ -29,5 +26,10 @@ object Deck {
   }
 }
 
+object ShuffledDeck{
+  def apply(deck: Deck): ShuffledDeck = {
+    ShuffledDeck( scala.util.Random.shuffle(deck) )
+  }
+}
 
 case class ShuffledDeck(listOfCards: Deck)
